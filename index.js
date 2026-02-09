@@ -1,10 +1,11 @@
+
 // Функция для загрузки задач из localStorage
 function loadTasks() {
   const storedTasks = localStorage.getItem('tasks');
   if (storedTasks) {
     return JSON.parse(storedTasks);
   }
-  return items;
+  return []; // Возвращаем пустой массив вместо items
 }
 
 // Функция для сохранения задач в localStorage
@@ -78,7 +79,7 @@ function createItem(item) {
 }
 
 // Инициализация приложения
-let items = loadTasks();
+let items = loadTasks(); // Теперь items будет либо из localStorage, либо пустым массивом
 const listElement = document.querySelector('.to-do__list');
 const formElement = document.querySelector('.to-do__form');
 const inputElement = document.querySelector('.to-do__input');
