@@ -1,5 +1,3 @@
-
-
 const initialTasks = [
 	"Waking UP at 09:00",
 	"Check Mails , TG ",
@@ -43,8 +41,12 @@ function createItem(item) {
   const duplicateButton = clone.querySelector('.to-do__item-button_type_duplicate');
   const editButton = clone.querySelector('.to-do__item-button_type_edit');
   
-  deleteButton.addEventListener('click', (e) => {
-    e.target.closest('.to-do__item').remove();
+
+  const itemElement = clone.querySelector('.to-do__item');
+  
+  deleteButton.addEventListener('click', () => {
+
+    itemElement.remove();
     const items = getTasksFromDOM();
     saveTasks(items);
   });
@@ -61,25 +63,18 @@ function createItem(item) {
   editButton.addEventListener('click', () => {
     textElement.setAttribute('contenteditable', 'true');
     textElement.focus();
-  });
-  
-  textElement.addEventListener('blur', () => {
-    textElement.setAttribute('contenteditable', 'false');
-    const items = getTasksFromDOM();
-    saveTasks(items);
-  });
-  
-  textElement.addEventListener('keydown', (e) => {
-    if (e.key === 'Enter') {
-      e.preventDefault();
-      textElement.blur();
-    }
+    
+    textElement.addEventListener('blur', function onBlur() {
+      textElement.setAttribute('contenteditable', 'false');
+      const items = getTasksFromDOM();
+      saveTasks(items);
+
+      textElement.removeEventListener('blur', onBlur);
+    }, { once: true }); 
   });
   
   return clone;
 }
-
-
 
 const listElement = document.querySelector('.to-do__list');
 const formElement = document.querySelector('.to-do__form');
