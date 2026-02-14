@@ -5,6 +5,8 @@ const initialTasks = [
 	"drink coffee",
 	"dunno maybe some sport",
 	"watching movie ",
+	"fixing the code ",
+
 ];
 
 function loadTasks() {
@@ -32,20 +34,17 @@ function getTasksFromDOM() {
 
 function createItem(item) {
   const template = document.querySelector('#to-do__item-template');
-  const clone = template.content.cloneNode(true);
   
-  const textElement = clone.querySelector('.to-do__item-text');
+  const itemElement = template.content.querySelector('.to-do__item').cloneNode(true);
+  
+  const textElement = itemElement.querySelector('.to-do__item-text');
   textElement.textContent = item;
   
-  const deleteButton = clone.querySelector('.to-do__item-button_type_delete');
-  const duplicateButton = clone.querySelector('.to-do__item-button_type_duplicate');
-  const editButton = clone.querySelector('.to-do__item-button_type_edit');
-  
-
-  const itemElement = clone.querySelector('.to-do__item');
+  const deleteButton = itemElement.querySelector('.to-do__item-button_type_delete');
+  const duplicateButton = itemElement.querySelector('.to-do__item-button_type_duplicate');
+  const editButton = itemElement.querySelector('.to-do__item-button_type_edit');
   
   deleteButton.addEventListener('click', () => {
-
     itemElement.remove();
     const items = getTasksFromDOM();
     saveTasks(items);
@@ -68,12 +67,11 @@ function createItem(item) {
       textElement.setAttribute('contenteditable', 'false');
       const items = getTasksFromDOM();
       saveTasks(items);
-
       textElement.removeEventListener('blur', onBlur);
-    }, { once: true }); 
+    }, { once: true });
   });
   
-  return clone;
+  return itemElement;
 }
 
 const listElement = document.querySelector('.to-do__list');
